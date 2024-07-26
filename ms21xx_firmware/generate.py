@@ -104,7 +104,7 @@ def main():
             data = replace_at_index(data, edid_idx, args.edid)
 
         if args.serial:
-            raise NotImplementedError("Serial is not supported in ms2109 yet.")
+            print("WARNING: Serial is not supported in ms2109 yet.")
 
         # change the data back to bytes
         data = bytes.fromhex(data)
