@@ -14,11 +14,11 @@ pip install ms21xx-firmware
 
 ```
 ms21xx-firmware -h
-usage: generate.py [-h] [--chip {ms2109,ms2130}] [--output OUTPUT] [--vid VID] [--pid PID] [--firmware-version FIRMWARE_VERSION] [--video VIDEO] [--audio AUDIO] [--edid EDID] [--serial SERIAL]
+usage: generate.py [-h] [--chip {ms2109,ms2109s,ms2130}] [--output OUTPUT] [--vid VID] [--pid PID] [--firmware-version FIRMWARE_VERSION] [--video VIDEO] [--audio AUDIO] [--edid EDID] [--serial SERIAL]
 
 options:
   -h, --help            show this help message and exit
-  --chip {ms2109,ms2130}
+  --chip {ms2109,ms2109s,ms2130}
   --output OUTPUT
   --vid VID
   --pid PID
@@ -29,9 +29,14 @@ options:
   --serial SERIAL
 ```
 
+`ms2109s` uses a 2 KB EEPROM dump as its template. The generator trims it to
+the code length declared in the firmware header before patching it and
+recomputing the checksums, so the output has the same size as a real firmware
+image. Serial numbers are currently only supported on `ms2130`.
+
 ## Tutorial
 
-1. Generate a firmware file using the generator tool. If you have multiple devices, make sure to use unique serial number so that OS can properly identify the devices. Serial number is not supported in ms2109 yet.
+1. Generate a firmware file using the generator tool. If you have multiple devices, make sure to use unique serial number so that OS can properly identify the devices. Serial number is not supported in ms2109 and ms2109s yet.
    ```
    ms21xx-firmware --chip ms2130 --vid 345f --pid 2130 --firmware-version 12345678 --video "Patched Video" --audio "Patched Audio" --edid 00ffffffffffff00215730210a663401311f0103803c2278022895a7554ea3260f50542108008100814081806ec09500a9c0d1c00100023a801871382d40582c4500c48e2100001e011d007251d01e206e28550055502100001e000000fd0017551e641e000a202020202020000000fc0048444d4920544f205553420a20015402032f715401020304101112131e223e4b454c5f6421223c3d230907078301000067030c000000003ce50e616066658c0ad08a20e02d10103e9600c48e210000188c0ad090204031200c405500c48e210000184e1f008051001e3040803700c48e21000018000000000000000000000000000000000000000000000000000072 --serial 12345678 --output output.bin
    ```
